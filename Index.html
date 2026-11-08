@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1010">
+  <meta name="description" content="Horizon Mods — discover Minecraft mods and prepare compatible Horizon content mod packages.">
+  <title>Horizon Mods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script defer src="Script.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#home" data-tab="home" aria-label="Horizon Mods home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>HORIZON</strong><small>MODS HUB</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <button class="nav-item active" data-tab="home"><span class="nav-icon">⌂</span>Home</button>
+        <button class="nav-item" data-tab="discovery"><span class="nav-icon">✦</span>Discovery</button>
+        <button class="nav-item" data-tab="modrinth"><span class="nav-icon modrinth-icon">◈</span>Modrinth</button>
+        <button class="nav-item" data-tab="convert"><span class="nav-icon">⇄</span>Convert</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><span class="status-dot"></span><div><strong>Connected to Modrinth</strong><small>Public catalogue API</small></div></div>
+        <a class="side-link" href="https://modrinth.com/mods" target="_blank" rel="noopener">Explore Modrinth ↗</a>
+        <div class="side-version">HORIZON MODS <span>v1.0</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark small"><span></span><span></span><span></span></span><strong>HORIZON <em>MODS</em></strong></div>
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="pageCrumb">Home</strong></div>
+        <div class="topbar-right"><span class="online-pill"><i></i> API online</span><a class="icon-button" href="https://github.com/Vasysik/horizon-android" target="_blank" rel="noopener" aria-label="Horizon Android GitHub">⌘</a></div>
+      </header>
+
+      <section class="page active" id="page-home" data-page="home">
+        <div class="hero-panel">
+          <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+          <div class="hero-content">
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR MODDING WORKSPACE</div>
+            <h1>Make your Minecraft<br><span>more Horizon.</span></h1>
+            <p>Discover projects, explore releases, and prepare Horizon content mods in one place.</p>
+            <form class="hero-search" id="homeSearchForm">
+              <span class="search-symbol">⌕</span>
+              <input id="homeSearchInput" type="search" placeholder="Search mods on Modrinth..." autocomplete="off" aria-label="Search mods on Modrinth">
+              <button type="submit">Search <span>↗</span></button>
+            </form>
+            <div class="hero-meta"><span><i class="mini-dot"></i> Live Modrinth search</span><span>·</span><span>Community-powered discovery</span></div>
+          </div>
+          <div class="hero-art" aria-hidden="true"><div class="cube cube-back"></div><div class="cube cube-front"><span>H</span></div><div class="cube-shadow"></div><div class="art-spark spark-a">✦</div><div class="art-spark spark-b">✧</div></div>
+        </div>
+
+        <div class="section-heading home-section-heading"><div><div class="eyebrow muted">START EXPLORING</div><h2>Everything in one hub</h2></div><span class="section-caption">Choose your next move</span></div>
+        <div class="action-grid">
+          <button class="action-card" data-tab="discovery"><span class="action-icon discovery-icon">✦</span><span class="action-card-copy"><strong>Discover mods</strong><small>Browse popular and fresh projects</small></span><span class="card-arrow">↗</span></button>
+          <button class="action-card" data-tab="modrinth"><span class="action-icon modrinth-action">◈</span><span class="action-card-copy"><strong>Search Modrinth</strong><small>Find mods by version and loader</small></span><span class="card-arrow">↗</span></button>
+          <button class="action-card" data-tab="convert"><span class="action-icon convert-icon">⇄</span><span class="action-card-copy"><strong>Prepare a .hmod</strong><small>Inspect a JAR and edit its manifest</small></span><span class="card-arrow">↗</span></button>
+        </div>
+
+        <div class="section-heading list-heading"><div><div class="eyebrow muted">FROM THE COMMUNITY</div><h2>Popular on Modrinth</h2></div><button class="text-button" data-tab="modrinth">View all <span>↗</span></button></div>
+        <div id="homePopular" class="mod-grid compact-grid"><div class="loading-card"><span class="loader"></span>Loading popular projects...</div></div>
+        <div class="disclaimer-strip"><span class="info-icon">i</span><span>Modrinth projects are made for different loaders and Minecraft versions. A download is not automatically Horizon-compatible.</span></div>
+      </section>
+
+      <section class="page" id="page-discovery" data-page="discovery">
+        <div class="page-intro"><div><div class="eyebrow muted">FIND SOMETHING NEW</div><h1>Discovery<span class="heading-period">.</span></h1><p>Explore popular, recently updated, and new Minecraft mod projects.</p></div><span class="intro-orb">✦</span></div>
+        <div class="filter-toolbar discovery-toolbar"><div class="segmented" role="group" aria-label="Discovery sort"><button class="segment active" data-discovery-sort="downloads">Trending</button><button class="segment" data-discovery-sort="updated">Recently updated</button><button class="segment" data-discovery-sort="newest">New</button></div><span class="results-note" id="discoveryCount">Live catalogue</span></div>
+        <div class="mod-grid" id="discoveryResults"><div class="loading-card"><span class="loader"></span>Finding projects...</div></div>
+      </section>
+
+      <section class="page" id="page-modrinth" data-page="modrinth">
+        <div class="page-intro"><div><div class="eyebrow muted">THE MODRINTH CATALOGUE</div><h1>Modrinth<span class="heading-period">.</span></h1><p>Search mods and filter releases by Minecraft version and mod loader.</p></div><div class="modrinth-stamp">◈<small>MODRINTH</small></div></div>
+        <form class="catalogue-search" id="modrinthSearchForm"><span class="search-symbol">⌕</span><input id="modrinthQuery" type="search" placeholder="Search any Minecraft mod..." autocomplete="off" aria-label="Search Modrinth"><button type="submit">Search mods</button></form>
+        <div class="filter-panel">
+          <div class="filter-field"><label for="mcVersion">VERSION TARGET (MINECRAFT)</label><select id="mcVersion"><option value="">All versions</option><option>26.1</option><option>1.21.11</option><option>1.21.10</option><option>1.21.9</option><option>1.21.8</option><option>1.21.7</option><option>1.21.6</option><option>1.21.5</option><option>1.21.4</option><option>1.21.3</option><option>1.21.2</option><option>1.21.1</option><option>1.21</option><option>1.20.6</option><option>1.20.4</option><option>1.20.2</option><option>1.20.1</option><option>1.19.4</option><option>1.19.2</option><option>1.18.2</option><option>1.16.5</option></select></div>
+          <div class="filter-field"><label for="loaderFilter">MOD LOADER</label><select id="loaderFilter"><option value="">All loaders</option><option value="fabric">Fabric</option><option value="forge">Forge</option><option value="neoforge">NeoForge</option><option value="quilt">Quilt</option><option value="optifine">OptiFine</option><option value="liteloader">LiteLoader</option><option value="rift">Rift</option></select></div>
+          <div class="filter-field sort-field"><label for="catalogueSort">SORT BY</label><select id="catalogueSort"><option value="relevance">Relevance</option><option value="downloads">Most downloads</option><option value="updated">Recently updated</option><option value="newest">Recently published</option></select></div>
+        </div>
+        <div class="results-bar"><div><strong id="catalogueHeading">Explore mods</strong><span id="catalogueSubheading">Popular community projects from Modrinth</span></div><span id="catalogueCount" class="count-pill">— projects</span></div>
+        <div class="mod-grid" id="catalogueResults"><div class="loading-card"><span class="loader"></span>Loading Modrinth projects...</div></div>
+        <div class="pagination-row"><button class="outline-button" id="loadMoreButton" hidden>Load more projects <span>↓</span></button></div>
+      </section>
+
+      <section class="page" id="page-convert" data-page="convert">
+        <div class="page-intro"><div><div class="eyebrow muted">LOCAL FILE WORKBENCH</div><h1>Horizon Convert<span class="heading-period">.</span></h1><p>Inspect a downloaded JAR or ZIP, edit the Horizon manifest, and export a content package.</p></div><div class="convert-stamp">⇄</div></div>
+        <div class="notice-card warning-notice"><span class="notice-icon">!</span><div><strong>Important: this is a content packager, not a Java code port.</strong><p>Fabric / Forge Java classes cannot be made into Horizon code by renaming a file. This tool carries over <code>assets/</code> and <code>data/</code> files only. Their formats still need to be compatible with Horizon.</p><a href="https://github.com/Vasysik/horizon-android/blob/android-port/docs/mods.md" target="_blank" rel="noopener">Read Horizon mod format notes ↗</a></div></div>
+
+        <div class="converter-layout">
+          <div class="converter-main">
+            <div class="panel-card upload-panel">
+              <div class="panel-heading"><div><span class="step-number">01</span><div><h2>Upload your mod file</h2><p>Choose a downloaded .jar, .zip, or existing .hmod</p></div></div><span class="file-limit">LOCAL ONLY</span></div>
+              <label class="dropzone" id="dropzone" for="modFileInput"><input id="modFileInput" type="file" accept=".jar,.zip,.hmod,application/java-archive,application/zip"><span class="upload-symbol">⇧</span><strong>Tap to choose a file</strong><small>or drop your file here</small><span class="supported-files"><b>.JAR</b><b>.ZIP</b><b>.HMOD</b></span></label>
+              <div id="fileStatus" class="file-status" aria-live="polite"><span class="status-check">✓</span><span>No file selected yet</span></div>
+              <div id="inspectionReport" class="inspection-report" hidden></div>
+            </div>
+
+            <div class="panel-card manifest-panel">
+              <div class="panel-heading"><div><span class="step-number">02</span><div><h2>Modify Horizon settings</h2><p>These values are written to horizon-mod.toml</p></div></div><span class="toml-badge">TOML</span></div>
+              <div class="form-grid">
+                <div class="form-field"><label for="manifestId">MOD ID <em>*</em></label><input id="manifestId" type="text" value="example_mod" maxlength="64" spellcheck="false"><small>Lowercase letters, numbers, underscores</small></div>
+                <div class="form-field"><label for="manifestName">MOD NAME <em>*</em></label><input id="manifestName" type="text" value="Example Mod" maxlength="100"></div>
+                <div class="form-field"><label for="manifestVersion">VERSION</label><input id="manifestVersion" type="text" value="1.0.0" maxlength="32"></div>
+                <div class="form-field"><label for="manifestApi">HORIZON API</label><select id="manifestApi"><option value="0.2" selected>0.2 — Content</option></select></div>
+                <div class="form-field full-field"><label for="manifestDescription">DESCRIPTION</label><textarea id="manifestDescription" rows="2" maxlength="500">My first Horizon mod</textarea></div>
+                <div class="form-field"><label for="manifestAuthors">AUTHORS</label><input id="manifestAuthors" type="text" value="YourName" placeholder="Name One, Name Two"><small>Separate multiple authors with commas</small></div>
+                <div class="form-field"><label for="manifestSide">SIDE</label><select id="manifestSide"><option value="both" selected>Both</option><option value="client">Client</option><option value="server">Server</option></select></div>
+                <div class="form-field"><label for="manifestCapabilities">CAPABILITIES</label><input id="manifestCapabilities" type="text" value="registries" placeholder="registries"><small>Comma-separated capability names</small></div>
+                <div class="form-field"><label for="manifestNamespaces">NAMESPACES <span class="optional">OPTIONAL</span></label><input id="manifestNamespaces" type="text" placeholder="example_mod, my_namespace"><small>Additional namespaces</small></div>
+              </div>
+              <div class="manifest-preview-head"><div><strong>Manifest preview</strong><small>Updates as you edit the settings</small></div><button class="copy-button" id="copyManifestButton">Copy TOML</button></div>
+              <pre class="manifest-preview" id="manifestPreview"><code>id = "example_mod"
+name = "Example Mod"
+version = "1.0.0"
+description = "My first Horizon mod"
+authors = ["YourName"]
+api = "0.2"
+side = "both"
+capabilities = ["registries"]</code></pre>
+              <div class="export-row"><div><strong>Ready to package?</strong><small>Creates a ZIP-based .hmod file on this device.</small></div><button class="primary-button" id="exportHmodButton" disabled>Export .hmod <span>↗</span></button></div>
+              <p class="export-feedback" id="exportFeedback" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <aside class="converter-aside">
+            <div class="panel-card guide-card"><div class="guide-icon">⌘</div><h3>How it works</h3><ol><li><span>1</span><div><strong>Download a mod</strong><small>Get a JAR or ZIP file from its project page.</small></div></li><li><span>2</span><div><strong>Inspect the archive</strong><small>The tool checks for assets/ and data/ folders.</small></div></li><li><span>3</span><div><strong>Edit the manifest</strong><small>Set your ID, name, version, API, and capabilities.</small></div></li><li><span>4</span><div><strong>Export .hmod</strong><small>Save the packaged file and test it in Horizon.</small></div></li></ol></div>
+            <div class="panel-card info-panel"><div class="info-panel-title"><span>ⓘ</span> What can carry over?</div><div class="compat-row"><span class="compat-good">✓</span><div><strong>assets/ and data/</strong><small>Extracted into the content package for compatibility review.</small></div></div><div class="compat-row"><span class="compat-bad">×</span><div><strong>Java .class files</strong><small>Not converted. Horizon uses a different mod runtime.</small></div></div><div class="compat-row"><span class="compat-bad">×</span><div><strong>Fabric / Forge hooks</strong><small>Need a separate native Horizon implementation.</small></div></div></div>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="app-footer"><span>HORIZON MODS <b>·</b> COMMUNITY PROJECT</span><span>Not affiliated with Modrinth or the Horizon developers.</span></footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-item active" data-tab="home"><span>⌂</span><small>Home</small></button>
+    <button class="mobile-nav-item" data-tab="discovery"><span>✦</span><small>Discover</small></button>
+    <button class="mobile-nav-item" data-tab="modrinth"><span>◈</span><small>Modrinth</small></button>
+    <button class="mobile-nav-item" data-tab="convert"><span>⇄</span><small>Convert</small></button>
+  </nav>
+
+  <div class="modal-backdrop" id="projectModal" hidden>
+    <section class="project-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModalButton" aria-label="Close">×</button>
+      <div id="modalBody"></div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
